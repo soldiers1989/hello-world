@@ -1,0 +1,2 @@
+--模糊查询，查询包含2的数据
+select * from mobile_singleconfig_t t where regexp_like(t.moduleids,'^2$|,2(,|$)|(^|,)2,');
