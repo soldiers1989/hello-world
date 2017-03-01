@@ -1,0 +1,46 @@
+1、下载mysql-5.7.17-winx64.zip，下载完成后找个目录解压，我解压在D:\MySQL\mysql-5.7.17-winx64
+2、创建my.ini作为MySQL的配置文件
+    默认情况下没有my.ini文件，这需要我们手工创建一个。其实在MySQL5.6.13中带了一个my-default.ini，可以算作模板，只是里面的内容实在太少了。直接创建一个文本文件，命名为my.ini。打开它，输入如下内容：
+[mysqld]
+
+# 设置mysql客户端默认字符集
+default-character-set=utf8
+
+ #绑定IPv4和3306端口
+bind-address = 0.0.0.0
+port = 3306
+
+ # 设置mysql的安装目录
+basedir=D:\MySQL\mysql-5.7.17-winx64
+
+ # 设置mysql数据库的数据的存放目录
+datadir=D:\MySQL\mysql-5.7.17-winx64\data
+
+ # 允许最大连接数
+max_connections=200
+
+3、将MySQL安装成服务
+ 打开一个cmd.exe，将目录切换到D:\MySQL\mysql-5.7.17-winx64\bin，运行： mysqld -install ，提示服务安装成功！运行services.msc一看，确实有一个名为MySQL的服务了，启动它。
+4、初始化：mysqld --initialize
+
+ 配置path，D:\MySQL\mysql-5.7.17-winx64\bin
+ 到此，MySQL5.7.17已经可以正常使用了。
+5、启动mysql：net start mysql/net stop mysql
+ 
+ 
+--MySQL使用
+管理员进入：运行mysql -u root -p，提示输入密码时，直接回车即可以root身份进入管理MySQL了。
+首次登陆登陆失败怎么办？
+1、打开my.ini，在[mysqld]下面一行加入：skip-grant-tables，重启mysql
+2、进入mysql：mysql -u root -p,此时不需要密码就能进入
+3、选择database：use mysql
+4、修改root密码：UPDATE user SET authentication_string=PASSWORD('admin123') where USER='root';
+5、刷新权限：FLUSH PRIVILEGES;
+
+--如果用Navicat工具登陆报密码失效，可以重新修改密码
+1、登陆mysql -u root -p; 输入密码
+2、修改密码：SET PASSWORD = PASSWORD('root'); 这样密码就修改为root了
+
+
+
+
