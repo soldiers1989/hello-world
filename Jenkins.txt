@@ -1,0 +1,32 @@
+启动jenkins容器
+docker run --name lw-jenkins -p 8180:8080 -p 50000:50000 -v /colorfulfrog/jenkins_home:/var/jenkins_home jenkins
+docker run --name lw-jenkins -p 8180:8080 -p 50000:50000 -v /colorfulfrog/jenkins_home:/var/jenkins_home -u 1000 jenkins
+
+
+--启动tomcat
+docker run --name lw-tomcat -it -p 8081:8080 tomcat
+docker run --name lw-tomcat -it -p 8081:8080 -v /colorfulfrog/tomcat:/usr/local/tomcat tomcat
+docker run --name lw-tomcat -it -p 8081:8080 -v /colorfulfrog/tomcat/logs:/usr/local/tomcat/logs -v /colorfulfrog/tomcat/webapps:/usr/local/tomcat/webapps tomcat
+
+docker: Error response from daemon: oci runtime error: container_linux.go:247: starting container process caused "exec: \"catalina.sh\": executable file not found in $PATH".
+
+从主机复制到容器sudo docker cp host_path containerID:container_path
+
+从容器复制到主机sudo docker cp containerID:container_path host_path
+
+--怎么把tomcat的conf下的配置文件和webapps映射到宿主？其实这种说法不对，-v的作用是把宿主映射到容器，让容器能读宿主的文件
+思路：先把容器内的配置文件全拷贝出来，再用-v映射
+1、先把tomcat容器运行起来
+docker run --name lw-tomcat -it -p 8081:8080 tomcat
+
+2、将容器/usr/local/tomcat/conf下的配置文件都拷贝到宿主目录/colorfulfrog/tomcat下
+-- sudo docker cp containerID:container_path host_path
+sudo docker cp 88bec4a27de6:/usr/local/tomcat/conf /colorfulfrog/tomcat
+sudo docker cp 88bec4a27de6:/usr/local/tomcat/webapps /colorfulfrog/tomcat
+
+3、关闭容器，重新运行容器，并映射conf目录
+docker stop lw-tomcat
+docker rm lw-tomcat
+docker run --name lw-tomcat -it -p 8081:8080 -v /colorfulfrog/tomcat/conf:/usr/local/tomcat/conf tomcat
+docker run --name lw-tomcat -it -p 8081:8080 -v /colorfulfrog/tomcat/conf:/usr/local/tomcat/conf /colorfulfrog/tomcat/webapps:/usr/local/tomcat/webapps tomcat
+docker run --name lw-tomcat -it -p 8081:8080 -v /colorfulfrog/tomcat/conf:/usr/local/tomcat/conf -v /colorfulfrog/tomcat/logs:/usr/local/tomcat/logs -v /colorfulfrog/tomcat/webapps:/usr/local/tomcat/webapps tomcat
