@@ -5,7 +5,7 @@
 4、安装sshd，方便宿主机使用ssh连接虚拟机中的linux
 关闭ubuntu的防火墙 ufw disable
 
-Ubuntu虚拟机登录用户/密码：
+Ubuntu/CentOS虚拟机登录用户/密码：
 liwei/liwei
 
 ubuntu默认是没有root密码的，修改root密码方法：sudo passwd root
