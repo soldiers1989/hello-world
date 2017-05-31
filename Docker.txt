@@ -5,11 +5,11 @@ sudo apt-get install \
     linux-image-extra-$(uname -r) \
     linux-image-extra-virtual
 	
-2、安装docker
+2、在线安装docker（安装源可能比较老，不一定是最新的docker版本）
 sudo apt-get install docker-ce
 
---Ubuntu16.04通过安装包安装Docker（离线）
-1、https://download.docker.com/linux/ubuntu/dists/下载安装包，选择Ubuntu版本
+--Ubuntu16.04通过安装包安装Docker（离线安装-已验证成功）
+1、https://download.docker.com/linux/ubuntu/dists/下载安装包，选择Ubuntu版本，我的16.04是xenial版本
    我的是这个：https://download.docker.com/linux/ubuntu/dists/xenial/pool/stable/amd64/
    路径：/linux/ubuntu/dists/xenial/pool/stable/amd64/docker-ce_17.03.1~ce-0~ubuntu-xenial_amd64.deb 
 
@@ -19,7 +19,7 @@ sudo dpkg -i docker-ce_17.03.1-ce-0-ubuntu-xenial_amd64.deb
 3、验证安装是否成功
 sudo docker run hello-world
 
---系统启动引导docker
+--系统启动引导docker（开机启动docker）
 sudo systemctl enable docker
 
 
@@ -32,7 +32,7 @@ https://cr.console.aliyun.com/#/accelerator
 如何使用Docker加速器
 针对Docker客户端版本大于1.10的用户
 
-您可以通过修改daemon配置文件/etc/docker/daemon.json来使用加速器：
+您可以通过修改daemon配置文件/etc/docker/daemon.json来使用加速器，没有此文件时新建即可：
 
 sudo mkdir -p /etc/docker
 sudo tee /etc/docker/daemon.json <<-'EOF'

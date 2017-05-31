@@ -1,3 +1,10 @@
+虚拟机安装linux系统步骤
+1、安装VMWare
+2、安装linux系统，创建虚拟机-》选择下载好的linux iso镜像即可，我安装的是ubuntu16.04
+3、修改root密码： sudo passwd root
+4、安装sshd，方便宿主机使用ssh连接虚拟机中的linux
+关闭ubuntu的防火墙 ufw disable
+
 Ubuntu虚拟机登录用户/密码：
 liwei/liwei
 

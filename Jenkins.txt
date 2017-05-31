@@ -1,9 +1,26 @@
-启动jenkins容器
+--启动jenkins容器
+1、从dockerhub上拉取镜像
+docker pull jenkins
+
+2、在宿主机上创建文件夹目录，并赋予全部权限
+mkdir -p /colorfulfrog/jenkins_home
+chmod -R 777 /colorfulfrog/jenkins_home
+
+3、启动jenkins
 docker run --name lw-jenkins -p 8180:8080 -p 50000:50000 -v /colorfulfrog/jenkins_home:/var/jenkins_home jenkins
 docker run --name lw-jenkins -p 8180:8080 -p 50000:50000 -v /colorfulfrog/jenkins_home:/var/jenkins_home -u 1000 jenkins
 
 
 --启动tomcat
+1、从dockerhub上拉取镜像
+docker pull tomcat
+
+2、在宿主机上创建文件夹目录，并赋予全部权限
+mkdir -p /colorfulfrog/tomcat/conf
+mkdir -p /colorfulfrog/tomcat/logs
+mkdir -p /colorfulfrog/tomcat/webapps
+chmod -R 777 /colorfulfrog/tomcat
+
 docker run --name lw-tomcat -it -p 8081:8080 tomcat  --最简单的启动方式
 
 从主机复制到容器sudo docker cp host_path containerID:container_path
@@ -17,8 +34,8 @@ docker run --name lw-tomcat -it -p 8081:8080 tomcat
 
 2、将容器/usr/local/tomcat/conf下的配置文件都拷贝到宿主目录/colorfulfrog/tomcat下
 -- sudo docker cp containerID:container_path host_path
-sudo docker cp 88bec4a27de6:/usr/local/tomcat/conf /colorfulfrog/tomcat    --拷贝容器的conf目录到宿主
-sudo docker cp 88bec4a27de6:/usr/local/tomcat/webapps /colorfulfrog/tomcat --拷贝容器的webapps目录到宿主
+sudo docker cp bea72e87fab5:/usr/local/tomcat/conf /colorfulfrog/tomcat    --拷贝容器的conf目录到宿主
+sudo docker cp bea72e87fab5:/usr/local/tomcat/webapps /colorfulfrog/tomcat --拷贝容器的webapps目录到宿主
 
 3、关闭容器，重新运行容器，并映射conf目录
 docker stop lw-tomcat
