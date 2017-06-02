@@ -11,6 +11,8 @@ liwei/liwei
 ubuntu默认是没有root密码的，修改root密码方法：sudo passwd root
 root/root123
 
+CentOS虚拟机登录用户/密码： root/liwei123
+
 第一次通过ssh连接虚拟机，报错：Could not connect to '192.168.246.128' (port 22): Connection failed.
 解决方案：
 1、安装sshd：
