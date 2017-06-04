@@ -7,8 +7,8 @@ mkdir -p /colorfulfrog/jenkins_home
 chmod -R 777 /colorfulfrog/jenkins_home
 
 3、启动jenkins
-docker run --name lw-jenkins -p 8180:8080 -p 50000:50000 -v /colorfulfrog/jenkins_home:/var/jenkins_home jenkins
-docker run --name lw-jenkins -p 8180:8080 -p 50000:50000 -v /colorfulfrog/jenkins_home:/var/jenkins_home -u 1000 jenkins
+docker run --name lw-jenkins -d -p 8180:8080 -p 50000:50000 -v /colorfulfrog/jenkins_home:/var/jenkins_home jenkins
+docker run --name lw-jenkins -d -p 8180:8080 -p 50000:50000 -v /colorfulfrog/jenkins_home:/var/jenkins_home -u 1000 jenkins
 
 
 --启动tomcat
@@ -40,4 +40,4 @@ sudo docker cp bea72e87fab5:/usr/local/tomcat/webapps /colorfulfrog/tomcat --拷
 3、关闭容器，重新运行容器，并映射conf目录
 docker stop lw-tomcat
 docker rm lw-tomcat
-docker run --name lw-tomcat -it -p 8081:8080 -v /colorfulfrog/tomcat/conf:/usr/local/tomcat/conf -v /colorfulfrog/tomcat/logs:/usr/local/tomcat/logs -v /colorfulfrog/tomcat/webapps:/usr/local/tomcat/webapps tomcat
+docker run --name lw-tomcat -d -it -p 8081:8080 -v /colorfulfrog/tomcat/conf:/usr/local/tomcat/conf -v /colorfulfrog/tomcat/logs:/usr/local/tomcat/logs -v /colorfulfrog/tomcat/webapps:/usr/local/tomcat/webapps tomcat
