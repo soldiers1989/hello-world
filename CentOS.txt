@@ -1,2 +1,28 @@
 CentOS系统
 root/liwei123
+
+mkdir -p /colorfulfrog/tomcat
+mkdir -p /colorfulfrog/images
+
+--离线安装docker
+1、安装存储驱动
+sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+
+2、下载离线安装包
+https://download.docker.com/linux/centos/7/x86_64/stable/Packages/
+下载docker-ce-selinux-17.03.1.ce-1.el7.centos.noarch.rpm和docker-ce-17.03.1.ce-1.el7.centos.x86_64.rpm  
+
+3、执行安装命令
+$ sudo yum install docker-ce-selinux-17.03.1.ce-1.el7.centos.noarch.rpm
+$ sudo yum install docker-ce-17.03.1.ce-1.el7.centos.x86_64.rpm
+
+4、编辑 /etc/docker/daemon.json
+{
+  "storage-driver": "devicemapper"
+}
+
+5、启动docker进程
+$ sudo systemctl start docker
+
+启动docker进程：service docker start
+设置docker为开机启动：chkconfig docker on

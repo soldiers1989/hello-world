@@ -46,3 +46,34 @@ sudo systemctl restart docker
 
 重启docker服务
 sudo service docker restart
+
+=======================docker export/import===============================
+--导出容器：docker export
+docker export 容器名 > /home/导出文件名.tar  
+docker export lw-tomcat > /colorfulfrog/images_backup/tomcat.tar
+
+--导入容器：docker import
+docker import /home/导出文件名.tar  
+docker import /colorfulfrog/images/tomcat.tar
+或者
+cat 导出文件名.tar | sudo docker import - tomcat:latest
+cat tomcat.tar | sudo docker import - tomcat:latest
+
+运行导入的tomcat，必须带command，具体的command需要在导出容器的时候通过docker ps查看到。
+docker run --name lw-tomcat -it -p 8080:8080 tomcat catalina.sh run
+=======================docker export/import===============================
+
+=======================docker save/load===============================
+docker save IMAGE(镜像)
+--保存镜像：docker save
+使用 docker images 查看本机已有的镜像（也可以使用 docker commit <CONTAIN-ID> <IMAGE-NAME>命令把一个正在运行的容器保存为镜像
+docker save 镜像ID > /home/保存镜像名.tar  
+docker save 3695a0fe8320 > /colorfulfrog/images_backup/tomcat_image_save.tar
+
+--加载镜像:docker load
+docker load < /home/myubuntu-save-1204.tar
+docker load < /colorfulfrog/images/tomcat_image_save.tar
+=======================docker save/load===============================
+
+--给镜像打新标签
+docker tag imageid name:tag
