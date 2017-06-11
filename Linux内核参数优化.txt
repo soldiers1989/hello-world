@@ -1,0 +1,42 @@
+Linux 线程打开文件数设置（当次有效，重启后还原）
+查询：ulimit -n
+设置：ulimit -n 65535
+
+可以修改相应配置文件，使之永久有效
+#sudo vim /etc/security/limits.conf 
+* hard nofile 65535
+* soft nofile 65535
+root hard nofile 65535
+root soft nofile 65535
+* hard nproc 65535
+* soft nproc 65535
+root hard nproc 65535
+root soft nproc 65535
+* hard stack 1024
+* soft stack 1024
+root hard stack 1024
+root soft stack 1024
+
+重启后生效。
+如果ulimit -a查看时，max user processes 没有生效，可以添加一个文件
+#sudo vim /etc/security/limits.d/90-nproc.conf 
+* hard nproc 65535
+* soft nproc 65535
+root hard nproc 65535
+root hard nproc 65535
+
+--安装keepalived
+1、下载软件
+wget http://www.keepalived.org/software/keepalived-1.3.5.tar.gz
+2、解压
+tar -xvf keepalived-1.3.5.tar.gz
+如果报错：
+configure: error:
+  !!! OpenSSL is not properly installed on your system. !!!
+  !!! Can not include OpenSSL headers files.            !!!
+则执行命令：
+sudo apt-get install libssl-dev
+
+3、编译、安装
+$ ./configure --prefix=/usr/local/keepalived
+$ make && make install
