@@ -6,9 +6,30 @@ docker run -d -e MYSQL_ROOT_PASSWORD=root --name lw-mysql -p 3306:3306 mysql
 mkdir -p /colorfulfrog/mysql/data
 chmod -R 777 /colorfulfrog/mysql/data
 
-2、运行mysql容器，并映射宿主机目录，指定root的默认密码为root
-docker run --name lw-mysql -p 3306:3306 -v /colorfulfrog/mysql/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=root -d mysql
+2、先按默认方式启动mysql容器
+docker run -d -e MYSQL_ROOT_PASSWORD=root --name lw-mysql -p 3306:3306 mysql
 
-3、验证数据卷挂载是否成功
+3、将容器内/etc/mysql/conf.d目录拷贝到宿主机/colorfulfrog/mysql/conf目录下
+docker cp lw-mysql:/etc/mysql/conf.d /colorfulfrog/mysql
+chmod -R 777 /colorfulfrog/mysql/conf.d
+
+4、修改mysql最大连接数，修改/colorfulfrog/mysql/conf.d/docker.cnf文件，在文件最后加上以下两句
+character_set_server=utf8
+max_connections=10000
+
+5、停服务，重新运行mysql容器，并映射宿主机目录，指定root的默认密码为root
+docker stop lw-mysql
+docker rm lw-mysql
+docker run --name lw-mysql -p 3306:3306 -v /colorfulfrog/mysql/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=root -d mysql  --不映射conf.d目录
+docker run --name lw-mysql -p 3306:3306 -v /colorfulfrog/mysql/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=root -d mysql --max-connections=50000  --不读取cnf文件，直接设置变量方式
+
+6、验证数据卷挂载是否成功
    使用mysql workbanch连接测试是否成功
    创建schema
+   --查看mysql的最大连接数
+   show variables like '%max_connections%';
+   --查看当前版本
+   select version();
+   
+--无cnf文件配置，查看可用选项
+docker run -it --rm mysql --verbose --help
