@@ -26,7 +26,7 @@ sudo /etc/init.d/ssh restart
 编辑ssh的配置文件,命令：nano /etc/ssh/sshd_config
 在Authentication部分，注释掉“PermitRootLogin without-password”
 在Authentication部分，添加“PermitRootLogin yes”
-使用“Ctrl+o”保存数据，使用“Ctrl+X”退出编辑器
+使用“Ctrl+o”保存数据，按回车，再使用“Ctrl+X”退出编辑器
 重新启动ssh服务，命令：sudo service ssh restart
 
 通过终端安装程序sudo apt-get install xxx时出错：
