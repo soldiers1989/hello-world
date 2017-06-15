@@ -1,0 +1,139 @@
+操作系统：Ubuntu Server 16.04.1 LTS 64位
+配置：4核8G
+带宽：10M
+数量：两台
+
+腾讯云帐号:2851315102
+密码:8194123481
+
+ubuntu/hello123;root/root123
+公网IP         内网IP        安装应用
+123.207.9.75   10.135.26.189 nginx tomcat
+139.199.204.33 10.135.96.6   tomcat mysql
+
+mysql登陆账号 root/root
+
+echo '/dev/vdb1 /data01 ext3 defaults 0 0' >> /etc/fstab
+
+--SIT DB
+123.207.9.75 登陆用户：root/root
+--SIT tomcat
+http://123.207.9.75:8080/demo/
+
+
+Nginx 静态内容缓存，gzip，工作进程数
+Linux内核参数优化：打开文件数等，允许最大进程数
+Tomcat调优：
+Jvm参数调优
+set JAVA_OPTS=-server -Xms1024m -Xmx1024m -XX:PermSize=256m -XX:MaxPermSize=512m
+
+<Connector
+executor="tomcatThreadPool"
+port="8090"
+redirectPort="8443"
+protocol="org.apache.coyote.http11.Http11NioProtocol"
+compression="on"
+compressionMinSize="2048"
+compressableMimeType="text/html,text/xml,text/javascript,text/css,text/plain"
+enableLookups="false"
+acceptCount="1000"
+URIEncoding="UTF-8"
+connectionTimeout="20000" />
+
+连接器使用的线程池的名子：executor="tomcatThreadPool" 
+连接器端口                        ：port="8090" 
+连接器使用的传输方式      ：protocol="org.apache.coyote.http11.Http11NioProtocol" 
+传输时是否支持压缩          ：compression="on" 
+压缩的大小                        ：compressionMinSize="2048"
+
+<Executor name="tomcatThreadPool" namePrefix="catalina-exec-" 
+        maxThreads="1000" minSpareThreads="100" maxSpareThreads="300"/>	
+		
+线程池名：           name="tomcatThreadPool" 
+线程前缀：           namePrefix="catalina-exec-"
+最大产生线程数：maxThreads="800"
+
+最小初始现程数：minSpareThreads="400" 
+
+最大初始现程数：minSpareThreads="700"	
+
+--mysql修改最大连接数
+1、查看最大连接数:
+show variables like '%max_connections%';
+2、修改最大连接数
+方法一：修改配置文件。推荐方法一
+进入MySQL安装目录 打开MySQL配置文件 my.ini 或 my.cnf查找 max_connections=100 修改为 max_connections=1000 服务里重起MySQL即可.	
+
+
+--mysql
+mkdir -p /data01/mysql/data
+chmod -R 777 /data01/mysql/data
+
+docker run -d -e MYSQL_ROOT_PASSWORD=root --name mysql -p 3306:3306 mysql
+docker cp mysql:/etc/mysql/conf.d /data01/mysql
+chmod -R 777 /data01/mysql/conf.d
+docker run --name mysql -p 3306:3306 -v /data01/mysql/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=root -d mysql
+docker run --name mysql -p 3306:3306 -v /data01/mysql/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=root -d mysql --max-connections=50000
+
+--nginx
+docker run --name nginx -d -p 80:80 nginx
+$ mkdir -p /data01/nginx/config  --先在宿主机创建config目录
+$ mkdir -p /data01/nginx/html  --先在宿主机创建html目录
+$ mkdir -p /data01/nginx/log  --先在宿主机创建log目录
+$ chmod -R 777 /data01/nginx –设置权限
+$ docker cp nginx:/etc/nginx/nginx.conf /data01/nginx/config  –-将容器中的nginx.conf拷贝到宿主目录下
+$ docker cp nginx:/usr/share/nginx/html /data01/nginx  –-将容器中的html目录内容拷贝到宿主目录下
+
+docker run -d -p 80:80 -p 8443:443 -v /data01/nginx/config/nginx.conf:/etc/nginx/nginx.conf -v /data01/nginx/html:/usr/share/nginx/html -v /data01/nginx/log:/var/log/nginx --name nginx nginx
+
+--tomcat
+2、在宿主机上创建文件夹目录，并赋予全部权限
+mkdir -p /data01/tomcat/conf
+mkdir -p /data01/tomcat/logs
+mkdir -p /data01/tomcat/webapps
+chmod -R 777 /data01/tomcat
+
+docker run --name tomcat8081 -it -d -p 8081:8080 tomcat
+sudo docker cp tomcat8081:/usr/local/tomcat/conf /data01/tomcat    --拷贝容器的conf目录到宿主
+sudo docker cp tomcat8081:/usr/local/tomcat/webapps /data01/tomcat --拷贝容器的webapps目录到宿主
+
+--映射conf/webapps
+docker run --name tomcat8081 -d -it -p 8081:8080 -v /data01/tomcat/conf:/usr/local/tomcat/conf -v /data01/tomcat/logs/tomcat8081:/usr/local/tomcat/logs -v /data01/tomcat/webapps:/usr/local/tomcat/webapps tomcat
+docker run --name tomcat8082 -d -it -p 8082:8080 -v /data01/tomcat/conf:/usr/local/tomcat/conf -v /data01/tomcat/logs/tomcat8082:/usr/local/tomcat/logs -v /data01/tomcat/webapps:/usr/local/tomcat/webapps tomcat
+docker run --name tomcat8083 -d -it -p 8083:8080 -v /data01/tomcat/conf:/usr/local/tomcat/conf -v /data01/tomcat/logs/tomcat8083:/usr/local/tomcat/logs -v /data01/tomcat/webapps:/usr/local/tomcat/webapps tomcat
+docker run --name tomcat8084 -d -it -p 8084:8080 -v /data01/tomcat/conf:/usr/local/tomcat/conf -v /data01/tomcat/logs/tomcat8084:/usr/local/tomcat/logs -v /data01/tomcat/webapps:/usr/local/tomcat/webapps tomcat
+docker run --name tomcat8085 -d -it -p 8085:8080 -v /data01/tomcat/conf:/usr/local/tomcat/conf -v /data01/tomcat/logs/tomcat8085:/usr/local/tomcat/logs -v /data01/tomcat/webapps:/usr/local/tomcat/webapps tomcat
+
+--使用apache bench做压力测试（windows版本）
+D:\tools\jMeter\httpd-2.4.25-win64-VC14\Apache24\bin>ab.exe -n 1000 -c 100 http://123.207.9.75/demo/index.jsp
+
+
+
+=========================================SIT===============================================
+docker cp tomcat8085:/usr/local/tomcat/webapps/demo/index.jsp /data01
+docker cp /data01/index.jsp tomcat8081:/usr/local/tomcat/webapps/demo/
+
+
+--mysql
+mkdir -p /data01/mysql_sit/data
+chmod -R 777 /data01/mysql_sit/data
+
+docker run -d -e MYSQL_ROOT_PASSWORD=root --name mysql -p 3306:3306 mysql
+docker cp mysql:/etc/mysql/conf.d /data01/mysql_sit
+chmod -R 777 /data01/mysql_sit/conf.d
+docker run --name mysql -p 3306:3306 -v /data01/mysql_sit/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=root -d mysql
+docker run --name mysql -p 3306:3306 -v /data01/mysql_sit/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=root -d mysql --max-connections=50000
+
+
+mkdir -p /data01/tomcat_sit/conf
+mkdir -p /data01/tomcat_sit/logs
+mkdir -p /data01/tomcat_sit/webapps
+chmod -R 777 /data01/tomcat_sit
+
+docker run --name tomcat-sit -it -d -p 8080:8080 tomcat
+sudo docker cp tomcat-sit:/usr/local/tomcat/conf /data01/tomcat_sit    --拷贝容器的conf目录到宿主
+sudo docker cp tomcat-sit:/usr/local/tomcat/webapps /data01/tomcat_sit --拷贝容器的webapps目录到宿主
+
+--映射conf/webapps
+docker run --name tomcat-sit -d -it -p 8080:8080 -v /data01/tomcat_sit/conf:/usr/local/tomcat/conf -v /data01/tomcat_sit/logs:/usr/local/tomcat/logs -v /data01/tomcat_sit/webapps:/usr/local/tomcat/webapps tomcat
+=========================================SIT===============================================
