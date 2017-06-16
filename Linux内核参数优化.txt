@@ -1,3 +1,12 @@
+一、以root用户登录Linux服务器，创建用户test/test
+   新建用户组：
+   groupadd testgroup
+  
+   创建用户名/密码：
+   useradd -g testguoup -c /usr/bash -d /home/test -m test --新建用户
+   passwd test --新建密码
+   【命令说明：-g:用户所属用户组；-c: 新帐号password档的说明栏;-d:新帐号每次登入时所使用的home_dir。预设值为default_home内login 名称，并当成登入时目录名称；-m:使用者目录如不存在则自动建立】
+
 Linux 线程打开文件数设置（当次有效，重启后还原）
 查询：ulimit -n
 设置：ulimit -n 65535

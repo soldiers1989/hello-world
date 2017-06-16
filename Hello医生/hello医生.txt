@@ -6,7 +6,8 @@
 腾讯云帐号:2851315102
 密码:8194123481
 
-ubuntu/hello123;root/root123
+--服务器登录账号
+ubuntu/hello123;root/root123;lw/lw(有sudo权限)
 公网IP         内网IP        安装应用
 123.207.9.75   10.135.26.189 nginx tomcat
 139.199.204.33 10.135.96.6   tomcat mysql
@@ -14,6 +15,14 @@ ubuntu/hello123;root/root123
 mysql登陆账号 root/root
 
 echo '/dev/vdb1 /data01 ext3 defaults 0 0' >> /etc/fstab
+
+--ubuntu 为普通用户lw添加sudo权限
+$:vi /etc/sudoers
+
+# User privilege specification
+root    ALL=(ALL:ALL) ALL
+lw    ALL=(ALL:ALL) NOPASSWD: ALL
+
 
 --SIT DB
 123.207.9.75 登陆用户：root/root
