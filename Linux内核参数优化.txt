@@ -7,6 +7,46 @@
    passwd test --新建密码
    【命令说明：-g:用户所属用户组；-c: 新帐号password档的说明栏;-d:新帐号每次登入时所使用的home_dir。预设值为default_home内login 名称，并当成登入时目录名称；-m:使用者目录如不存在则自动建立】
 
+=======================ubuntu nfs配置============================
+服务器端：
+
+step1：关闭防火墙
+指令： sudo ufw disable 
+step2：安装nfs
+指令：sudo apt-get install nfs-kernel-server
+
+step3：
+打开/etc/exports文件，在末尾加入：/data01/share *(rw,sync,no_root_squash)
+
+注：nfs允许挂载的目录及权限，在文件/etc/exports中进行定义，各字段含义如下：
+/data01/share：要共享的目录
+*：允许所有的网段访问
+rw：读写权限
+sync：资料同步写入内在和硬盘
+no_root_squash：nfs客户端共享目录使用者权限
+
+重启服务：
+#sudo /etc/init.d/nfs-kernel-server restart      //重启nfs服务
+#showmount -e                                                 //显示共享出的目录
+
+
+客户端：
+nfsclient端安装和配置
+
+(1)安装nfsclient
+sudo apt-get install nfs-common
+
+（2）查看nfsserver上共享的目录
+
+#sudo mount -t nfs 10.135.26.189:/data01/share /data01/share
+192.168.0.149为服务器端IP地址这样就把共享目录挂到了/data01/share目录
+取消挂载用这个指令：
+#sudo umount /data01/share
+--自动挂载
+#vi /etc/rc.local
+添加这一句到最后：mount -t nfs 10.135.26.189:/data01/share /data01/share   
+=======================ubuntu nfs配置============================
+   
 Linux 线程打开文件数设置（当次有效，重启后还原）
 查询：ulimit -n
 设置：ulimit -n 65535
