@@ -1,0 +1,95 @@
+监听器模式可以称作是观察者模式的一个变种，JDK也默认做了接口定义java.util.EventObject（事件）、java.util.EventListener(监听器)
+
+监听器模型涉及以下三个对象，模型图如下：
+（1）事件：用户对组件的一个操作，称之为一个事件，继承JDK的java.util.EventObject类,封装了事件源对象及跟事件相关的信息
+（2）事件源：发生事件的组件就是事件源，可以是一个普通的POJO对象,相当于观察者模式中的被观察者,将持有监听器列表
+（3）事件监听器（处理器）：监听并负责处理事件的方法，实现java.util.EventListener接口，并定义handerEvent方法,注册在事件源上,当事件源的属性或状态改变时,取得相应的监听器调用其内部的回调方法。
+
+监听器模式：事件源注册监听器之后，当事件源触发事件，监听器就可以回调事件对象的方法；更形象地说，监听者模式是基于：注册-回调的事件/消息通知处理模式，就是被监控者将消息通知给所有监控者。 
+1、注册监听器：事件源.addListener；
+2、回调：事件源实现onListener。
+
+实例：场景：按下开关，灯做出的响应。
+/**
+ * 事件对象。继承EventObject
+ * Created by HuangYQ on 2016/5/31.
+ */
+public class SwitchEvent extends EventObject {
+
+    private String switchState;     //表示开关的状态
+
+    public SwitchEvent(Switch source, String switchState) {
+        super(source);
+        this.switchState = switchState;
+    }
+
+    public void setSwitchState(String switchState) {
+        this.switchState = switchState;
+    }
+
+    public String getSwitchState() {
+        return switchState;
+    }
+}
+
+/**
+ * 事件监听接口
+ * Created by HuangYQ on 2016/5/31.
+ */
+public interface SwitchListener extends EventListener {
+
+    public void handleEvent(SwitchEvent switchEvent);
+
+}
+
+/**
+ * 电源开关
+ * 事件源对象，类似于Swing中的button
+ * Created by HuangYQ on 2016/5/31.
+ */
+public class Switch {
+
+    private Vector switchListenerList = new Vector();
+
+    public void addListener(Object listener) {
+        switchListenerList.add(listener);
+    }
+
+    protected void open() {
+        SwitchEvent switchEvent = new SwitchEvent(this, "开");
+        notifyListeners(switchEvent);
+    }
+
+    protected void close() {
+        SwitchEvent switchEvent = new SwitchEvent(this, "关");
+        notifyListeners(switchEvent);
+    }
+
+    private void notifyListeners(SwitchEvent switchEvent) {
+        Iterator iterator = switchListenerList.iterator();
+        while (iterator.hasNext()) {
+            SwitchListener switchListener = (SwitchListener) iterator.next();
+            switchListener.handleEvent(switchEvent);
+        }
+    }
+
+}
+
+//测试类
+public class SwitchMain {
+
+    public static void main(String[] args) {
+        Switch switchTest = new Switch();
+        switchTest.addListener(new SwitchListener() {
+            @Override
+            public void handleEvent(SwitchEvent switchEvent) {
+                //Do what ever you want !
+                System.out.println(switchEvent.getSwitchState());
+            }
+        });
+
+        //触发
+        switchTest.open();
+        switchTest.close();
+    }
+}

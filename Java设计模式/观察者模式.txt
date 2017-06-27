@@ -1,0 +1,54 @@
+描述：观察者模式是对象的行为模式，又叫发布-订阅(Publish/Subscribe)模式、模型-视图(Model/View)模式、源-监听器(Source/Listener)模式或从属者(Dependents)模式。
+
+　　观察者模式定义了一种一对多的依赖关系，让多个观察者对象同时监听某一个主题对象。这个主题对象在状态上发生变化时，会通知所有观察者对象，使它们能够自动更新自己。
+
+java jdk已经实现了观察者模式，就在java.util包中
+在java.util包中包含有基本的Observer接口和Observable抽象类.功能上和Subject接口和Observer接口类似.不过在使用上,就方便多了,因为许多功能比如说注册,删除,通知观察者的那些功能已经内置好了.
+
+　　使用javaAPI的观察者模式需要明白这么几件事情:
+1、如何使对象变为观察者?
+   实现观察者接口(java.util.Observer),然后调用Observable对象的addObserver()方法.不想再当观察者时,调用deleteObserver()就可以了.
+   
+2、被观察者(主题)如何发出通知?
+   第一步:先调用setChanged()方法,标识状态已经改变的事实.
+   第二步:调用notifyObservers()方法或者notifyObservers(Object arg),这就牵扯到推(push)和拉(pull)的方式传送数据.如果想用push的方式"推"数据给观察者,可以把数据当做数据对象传送给notifyObservers(Object arg)方法,其中的arg可以为任意对象,意思是你可以将任意对象传送给每一个观察者.如果调用不带参数的notifyObserver()方法,则意味着你要使用pull的方式去主题对象中"拉"来所需要的数据.
+3、观察者如何接收通知?
+   观察者只需要实现一个update(Observable o,Object arg)方法,第一个参数o,是指定通知是由哪个主题下达的,第二个参数arg就是上面notifyObserver(Object arg)里传入的数据,如果不传该值,arg为null.
+   
+   实例：
+   //被观察者类
+public class NumObservable extends Observable {
+    int data = 0;
+ 
+    public void setData(int i) {
+       data = i;
+       setChanged();    //标记此 Observable对象为已改变的对象
+       notifyObservers();    //通知所有观察者
+       //notifyObservers(Object obj);    //通知所有观察者，并且可以额外携带一个参数obj给观察者
+    }
+}
+
+ //观察者类
+public class NumObserver implements Observer{
+    
+    public void update(Observable o, Object arg) {    //有被观察者发生变化，自动调用对应观察者的update方法
+       NumObservable myObserable=(NumObservable) o;     //获取被观察者对象
+       System.out.println("Data has changed to " +myObserable.data);
+    }
+}
+
+//测试类
+public class Test {
+    public static void main(String[] args) {
+       NumObservable number = new NumObservable();    //被观察者对象
+       number.addObserver(new NumObserver());    //给number这个被观察者添加观察者(当然可以有多个观察者)
+       number.setData(1);
+       number.setData(2);
+       number.setData(3);
+    }
+}
+
+输出：
+Data has changed to 1
+Data has changed to 2
+Data has changed to 3
