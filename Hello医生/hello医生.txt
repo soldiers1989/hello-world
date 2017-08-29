@@ -7,10 +7,10 @@
 密码:8194123481
 
 --服务器登录账号
-ubuntu/hello123;root/root123;lw/lw(有sudo权限)
+ubuntu/hello123;root/2wsx@WSX;lw/lw(有sudo权限)
 公网IP         内网IP        安装应用
-123.207.9.75   10.135.26.189 nginx tomcat
-139.199.204.33 10.135.96.6   tomcat mysql
+123.207.9.75   10.135.26.189 nginx tomcat root/HELLO-doctor&|!
+139.199.204.33 10.135.96.6   tomcat mysql root/HELLO-doctor&|!
 
 mysql登陆账号 root/root
 

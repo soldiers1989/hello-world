@@ -1,0 +1,11 @@
+安装完成后，需要完成一些配置才能使用RabbitMQ，可以直接用cmd到RabbitMQ的安装目录下的sbin目录通过命令配置，也可以直接在开始菜单中直接找到RabbitMQ Command Prompt (sbin dir)运行直接到达RabbitMQ的安装目录的sbin，为了方便，我们先启用管理插件,执行命令
+rabbitmq-plugins.bat enable rabbitmq_management
+
+1、创建用户，指定用户名以及密码
+./rabbitmqctl add_user root root //用户名密码都是root
+
+2、分配角色,administrator是可以操作和guest本地用户一样的功能，当登录上rabbitmq_management之后，里面的所有功能都可以使用。
+rabbitmqctl set_user_tags root administrator
+
+3、授权，队列的操作管理权限。如果不配置，那么客户端在连接消息队列时会出问题。
+rabbitmqctl set_permissions -p / root ".*" ".*" ".*"
