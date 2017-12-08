@@ -23,23 +23,101 @@ max_connections=200
  打开一个cmd.exe，将目录切换到D:\MySQL\mysql-5.7.17-winx64\bin，运行： mysqld -install ，提示服务安装成功！运行services.msc一看，确实有一个名为MySQL的服务了，启动它。
 4、初始化：mysqld --initialize
 
- 配置path，D:\MySQL\mysql-5.7.17-winx64\bin
+ 配置环境变量path，把mysql的bin目录追加到path，D:\MySQL\mysql-5.7.17-winx64\bin
  到此，MySQL5.7.17已经可以正常使用了。
 5、启动mysql：net start mysql/net stop mysql
  
  
 --MySQL使用
-管理员进入：运行mysql -u root -p，提示输入密码时，直接回车即可以root身份进入管理MySQL了。
+管理员进入CMD：运行mysql -u root -p，提示输入密码时，直接回车即可以root身份进入管理MySQL了。
 首次登陆登陆失败怎么办？
 1、打开my.ini，在[mysqld]下面一行加入：skip-grant-tables，重启mysql
 2、进入mysql：mysql -u root -p,此时不需要密码就能进入
 3、选择database：use mysql
-4、修改root密码：UPDATE user SET authentication_string=PASSWORD('admin123') where USER='root';
+4、修改root密码：UPDATE user SET authentication_string=PASSWORD('adminroot') where USER='root';
 5、刷新权限：FLUSH PRIVILEGES;
 
 --如果用Navicat工具登陆报密码失效，可以重新修改密码
 1、登陆mysql -u root -p; 输入密码
 2、修改密码：SET PASSWORD = PASSWORD('root'); 这样密码就修改为root了
+
+
+
+
+
+============================网上找的安装步骤===================================================
+mysql-5.7.12-winx64.zip解压安装方式
+1、解压文件到你想要安装的位置。
+    本人是直接解压到E盘。
+2、配置环境变量，在path中放入：E:\mysql-5.7.12-winx64\bin;
+3、在E:\mysql-5.7.12-winx64中，新建my.ini,对mysql进行配置。
+配置内容可为：
+---------------------------------------------------------------------------------------------------------                 
+[client]
+port=3306
+default-character-set=utf8
+[mysqld]
+port=3306
+character_set_server=utf8
+#解压目录
+basedir=E:\mysql-5.7.12-winx64
+#解压目录下data目录
+datadir=E:\mysql-5.7.12-winx64\data
+ 
+sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES
+----------------------------------------------------------------------------------------------------------
+4、进入命令窗口
+cd E:\mysql-5.7.12-winx64\bin    (如果命令可以直接执行，不需要进入bin目录)
+命令：mysqld --initialize   #直接初始化mysql，生成data文件夹中的文件。
+命令：mysqld -install          #安装mysql为windows的一个服务，运行services.msc可查看
+命令：net start mysql          #启动服务器
+
+以下是mysql的一些命令：
+#命令：mysqld --console          #控制台
+命令:net stop mysql            #关闭服务器
+命令: mysqld -remove           #卸载mysql
+ 
+5、登陆
+此时用mysql -uroot -p登录时，不知道密码，按以下步骤设置密码。
+1）编辑mysql配置文件my.ini（E:\mysql-5.7.12-winx64），在[mysqld]这个条目下加入
+  skip-grant-tables
+保存退出后重启mysql
+①　点击“开始”->“运行”(快捷键Win+R)。
+②　停止：输入 net stop mysql
+③　启动：输入net start mysql
+ 
+这时候在cmd里面输入mysql -u root -p就可以不用密码登录了，出现password：的时候直接回车可以进入。
+ 
+（1）进入mysql数据库：
+mysql> use mysql;
+Database changed
+（2）给root用户设置新密码，蓝色部分自己输入：
+mysql> （版本5.5）update user set password=password("新密码") where user="root";
+（版本5.7）update user set authentication_string=password('root') where user='root' and Host = 'localhost';
+Query OK, 1 rows affected (0.01 sec)
+Rows matched: 1 Changed: 1 Warnings: 0
+（3）刷新数据库
+mysql> flush privileges;
+Query OK, 0 rows affected (0.00 sec)
+（4）退出mysql：
+mysql> quit
+Bye
+改好之后，再修改一下my.ini这个文件，把我们刚才加入的"skip-grant-tables"这行删除，保存退出再重启mysql就可以了。
+ 
+修改完毕。重启mysql服务。
+登录：mysql -uroot -proot
+ 
+mysql就可以连接了
+但此时操作似乎功能不完全，还要alter user…
+mysql> alter user 'root'@'localhost' identified by 'root';
+ 
+这样也可以：
+mysql> set password for 'root'@'localhost'=password('root');
+ 
+然后：
+mysql>quit;
+登录：
+Mysql -uroot -proot 就可以直接登录。
 
 
 
