@@ -1,0 +1,17 @@
+git账号：liwei/liwei123
+
+liwei@yxcoach.com
+
+DB-dev:
+192.168.1.234:3306/treasuredb
+yxdbadmin/yxdb+admin123
+
+git@192.168.1.234:repositories/treasure/treasure.git   寻宝项目 后台接口服务
+
+git@192.168.1.234:repositories/treasure/treasure-docment.git  寻宝项目 相关文档
+
+git@192.168.1.234:repositories/treasure/treasure-web.git  寻宝项目 web端管理
+
+git@192.168.1.234:repositories/treasure/treasure-android.git 寻宝项目 android
+
+git@192.168.1.234:repositories/treasure/treasure-ios.git  寻宝项目 ios
