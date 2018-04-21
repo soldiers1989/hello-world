@@ -1,10 +1,14 @@
 git账号：liwei/liwei123
+禅道账号  liwei   密码  Liwei888888
 
 liwei@yxcoach.com
 
 DB-dev:
 192.168.1.234:3306/treasuredb
 yxdbadmin/yxdb+admin123
+
+treasure-pro
+120.79.43.119
 
 git@192.168.1.234:repositories/treasure/treasure.git   寻宝项目 后台接口服务
 
