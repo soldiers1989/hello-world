@@ -4,11 +4,17 @@ git账号：liwei/liwei123
 liwei@yxcoach.com
 
 DB-dev:
-192.168.1.234:3306/treasuredb
+192.168.1.234:3306/treasuredb  CentOS release 6.4
 yxdbadmin/yxdb+admin123
 
+服务器
 treasure-pro
-120.79.43.119
+120.79.43.119   root    XUunBao_0731CS#@
+
+#redis生产环境
+redis.url=127.0.0.1
+redis.password=Xunbao@_0737
+redis.port=6379
 
 git@192.168.1.234:repositories/treasure/treasure.git   寻宝项目 后台接口服务
 
