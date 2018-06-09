@@ -1,0 +1,55 @@
+一、先创建用户组
+$: groupadd testgroup
+
+二、创建用户
+$: useradd -g testguoup -c /bin/bash -d /home/test -m test
+【命令说明：-g:用户所属用户组；-c: 新帐号password档的说明栏;-d:新帐号每次登入时所使用的home_dir。预设值为default_home内login 名称，并当成登入时目录名称；-m:使用者目录如不存在则自动建立】
+
+设置密码
+$: passwd test
+
+二：安装jdk及tomcat
+
+1、将JDK和Tomcat安装包jdk-6u24-linux-i586.bin和Tomcat-6.0.35.tar上传到test用户下
+
+2、给jdk-6u24-linux-i586.bin安装包赋予执行权限
+
+     chmod 777 jdk-6u24-linux-i586.bin
+
+3、安装jdk
+
+     ./jdk-6u24-linux-i586.bin
+
+4、安装Tomcat（解压即可）
+
+     tar -xvf Tomcat-6.0.35.tar
+
+5、配置jdk和Tomcat环境变量
+
+     修改用户系统环境变量文件
+
+   vi .profile
+
+     添加变量参数：
+
+      export JAVA_HOME=/home/test/jdk1.6.0_24
+
+   export CLASSPATH=.:$JAVA_HOME/jre/lib:$JAVA_HOME/lib/tools.jar
+
+   export JRE_HOME=$JAVA_HOME/jre
+
+   export PATH=$JAVA_HOME/bin:$PATH
+
+   export LANG=en_US
+
+   export LC_CTYPE=en_US.UTF-8
+
+   export CATALINA_HOME=/home/test/Tomcat_6.0.35
+
+  生效环境变量：
+
+   source .profile
+
+6、修改Tomcat内存参数信息，修改/home/test/Tomcat_6.0.35/bin/catalina.sh文件,如下:(此步骤可选)
+
+   JAVA_OPTS="$JAVA_OPTS -Xms512m -Xmx1024m -XX:PermSize=128M -XX:PermSize=256M"

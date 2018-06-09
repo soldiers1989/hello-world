@@ -1,0 +1,80 @@
+git账号：liwei/liwei123
+禅道账号  liwei   密码  Liwei888888
+
+liwei@yxcoach.com
+
+DB-dev:
+192.168.1.234:3306/treasuredb  CentOS release 6.4
+yxdbadmin/yxdb+admin123
+
+服务器
+treasure-pro
+120.79.43.119   root    XUunBao_0731CS#@
+
+#redis生产环境
+redis.url=127.0.0.1
+redis.password=Xunbao@_0737
+redis.port=6379
+
+git@192.168.1.234:repositories/treasure/treasure.git   寻宝项目 后台接口服务
+
+git@192.168.1.234:repositories/treasure/treasure-docment.git  寻宝项目 相关文档
+
+git@192.168.1.234:repositories/treasure/treasure-web.git  寻宝项目 web端管理
+
+git@192.168.1.234:repositories/treasure/treasure-android.git 寻宝项目 android
+
+git@192.168.1.234:repositories/treasure/treasure-ios.git  寻宝项目 ios
+
+
+寻宝新浪账号(未认证)
+账号：17363790099@163.com 密码：hutsy4262333
+
+寻宝阿里云
+账号：root 密码：asdzxc@2018
+增配置
+微信支付
+
+账号：1500874611
+密码：lv123456@
+
+支付宝账号
+账号：17363790099@189.cn
+登录密码：hntsy888
+支付密码：tsy888
+
+苹果开发者账号(企业)
+申请中
+
+官网
+依赖于服务器
+
+高德地图：
+
+账号：1736379099
+密码：tsy4262333
+
+友盟：
+账号：17363790099@163.com
+密码：tsylv17363790099
+
+微信公众号：
+账号：myyyzw@163.com
+密码：lv12345678
+
+支付宝：
+账号：17363790099@189.cn
+登录密码：hntsy888
+支付密码：tsy888
+
+应用宝：
+账号：17363790099@163.com
+密码：tsy4262333
+qq号：2572825782
+
+360应用市场：
+账号：17363790099
+密码：lv4262333
+
+短信接口
+已联系移动联系人, 这两天出结果,微信反馈我
