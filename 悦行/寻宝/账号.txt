@@ -7,7 +7,6 @@ DB-dev:
 192.168.1.234:3306/treasuredb  CentOS release 6.4
 yxdbadmin/yxdb+admin123
 
-192.168.1.236   root    XunBao_APP1_!@#
 
 com.mysql.jdbc.Driver
 
@@ -22,3 +21,8 @@ treasure-pro
 redis.url=127.0.0.1
 redis.password=Xunbao@_0737
 redis.port=6379
+
+ssh登录
+192.168.1.234 root/@Yxcoach234_2018#
+192.168.1.235 root/@235Yxcoach_2018# 
+192.168.1.236 root/@Yxcoach_2018#
