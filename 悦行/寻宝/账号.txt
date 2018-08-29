@@ -31,11 +31,16 @@ ssh登录
 #老走么、调度、站务系统生产服务器
 101.200.241.34
 101.200.241.55
-root/NewSSZG_cs@021
+root/NewSSZG_cs@021  NewSSZG_cs@999
 
 #网约车
 119.23.52.220   39.108.121.109
-root/NewSSZG_cs@021
+root/NewSSZG_cs@021  NewSSZG_cs@999
 
 
 yzp/Yzp0876_(*CS_2018   ssh端口为3222      4台服务器root密码：NewSSZG_cs@999
+
+
+#gitlab
+重启：/etc/init.d/gitlab restart
+启动日志: /data/git/gitlab/log/unicorn.stderr.log
